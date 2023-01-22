@@ -1,0 +1,13 @@
+//
+// Created by Jeka8833 on 22.01.2023.
+//
+
+#ifndef POWERWRITER_SETTINGS_H
+#define POWERWRITER_SETTINGS_H
+
+#endif //POWERWRITER_SETTINGS_H
+
+#define CS_PIN_SD 4
+#define DISPLAY_ADDRESS 0x27
+#define DISPLAY_COLUMN 16
+#define DISPLAY_ROW 2
