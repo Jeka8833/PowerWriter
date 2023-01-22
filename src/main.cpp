@@ -29,5 +29,4 @@ void setup() {
 
 void loop() {
     Render::render();
-    delay(1000);
 }

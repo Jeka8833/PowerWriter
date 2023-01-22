@@ -8,6 +8,7 @@
 
 LiquidCrystal_I2C lcd(DISPLAY_ADDRESS, DISPLAY_COLUMN, DISPLAY_ROW);
 uint8_t lastPage = 0;
+uint8_t timeUpdate = 0;
 
 void Render::init() {
     lcd.init();
@@ -15,9 +16,16 @@ void Render::init() {
 }
 
 void Render::render() {
-    lcd.setCursor(0, 0);
+    uint16_t light = max(min(analogRead(LIGHT_SENSOR) + (511 - analogRead(BRIGHTNESS_POTENTIOMETER)), 1023), 0);
+    analogWrite(DISPLAY_BRIGHTNESS_PWM, map(light, 0, 1023, 254, 0));
 
-    uint8_t pages = millis() / 5000 % 3;
+    uint8_t time = millis() / 1000;
+
+    if(timeUpdate == time) return;
+    timeUpdate = time;
+
+    lcd.setCursor(0, 0);
+    uint8_t pages = time / 5 % 3;
     if (lastPage != pages) {
         lcd.clear();
         lastPage = pages;

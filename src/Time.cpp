@@ -24,6 +24,8 @@ bool Time::init() {
     DateTime timeAlarm2 = getAlarm2(timeAlarm1);
     lastEnabledTime = timeAlarm1 - timeAlarm2;
     disabledTime = timeEnable - timeAlarm1;
+
+    return true;
 }
 
 TimeSpan Time::getEnabledTime() {
