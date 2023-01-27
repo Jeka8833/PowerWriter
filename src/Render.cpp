@@ -13,15 +13,38 @@ uint8_t timeUpdate = 0;
 void Render::init() {
     lcd.init();
     lcd.backlight();
+
+    // Пины D9 и D10 - 7.8 кГц
+    TCCR1A = 0b00000001;  // 8bit
+    TCCR1B = 0b00001010;  // x8 fast pwm
 }
 
 void Render::render() {
-    uint16_t light = max(min(analogRead(LIGHT_SENSOR) + (511 - analogRead(BRIGHTNESS_POTENTIOMETER)), 1023), 0);
+    uint16_t button = analogRead(BUTTONS_PIN);
+    if (button < BUTTON_RIGHT / 2) {
+        // Not pressed button
+
+    } else if (BUTTON_RIGHT / 2 <= button && button < BUTTON_CENTER - (BUTTON_CENTER - BUTTON_RIGHT) / 2) {
+        // Right button
+        Serial.println("Right");
+
+    } else if (BUTTON_CENTER - (BUTTON_CENTER - BUTTON_RIGHT) / 2 <= button &&
+               button < BUTTON_LEFT - (BUTTON_LEFT - BUTTON_CENTER) / 2) {
+        // Center button
+        Serial.println("Center");
+
+    } else {
+        // Left button
+        Serial.println("Left");
+
+    }
+
+    uint16_t light = max(min(analogRead(LIGHT_SENSOR), 1023), 0);
     analogWrite(DISPLAY_BRIGHTNESS_PWM, map(light, 0, 1023, 254, 0));
 
-    uint8_t time = millis() / 1000;
+    uint8_t time = millis() >> 10; // +- 1 second
 
-    if(timeUpdate == time) return;
+    if (timeUpdate == time) return;
     timeUpdate = time;
 
     lcd.setCursor(0, 0);

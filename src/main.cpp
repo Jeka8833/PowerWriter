@@ -5,6 +5,7 @@
 #include <RTClib.h>
 
 void setup() {
+    Serial.begin(9600);
     Time::init();
 
     bool SDReady = SD.begin(CS_PIN_SD);
