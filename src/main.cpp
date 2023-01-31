@@ -1,6 +1,7 @@
 #include "Settings.h"
 #include "Time.h"
 #include "Render.h"
+#include "Config.h"
 #include <SD.h>
 #include <RTClib.h>
 
@@ -25,6 +26,7 @@ void setup() {
     }
     Time::updateAlarms();
 
+    Config::read();
     Render::init();
 }
 
